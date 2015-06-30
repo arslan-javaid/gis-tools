@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>GIS Testing Tool</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">
+
+    <script type="text/javascript" src="ol/OpenLayers.js"></script>
+    <script type="text/javascript" src="map.js"></script>
+
+</head>
+
+<body onload="OL.init();">
+
+<div class="alert alert-success" role="alert"></div>
+<div id="map"></div>
+<div id="content">
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a href="#draw">Draw</a></li>
+        <li role="presentation"><a href="#transform">Transform</a></li>
+        <li role="presentation"><a href="#">Search</a></li>
+        <li role="presentation"><a href="#">Route</a></li>
+    </ul>
+    <div id="draw">
+        <div id="projection-content" class="input-group">
+            <span class="input-group-addon">Projection</span>
+            <input type="text" id="projection" class="form-control" placeholder="3857" value="3857" aria-describedby="Longitude">
+        </div>
+
+        <label class="radio-inline">
+            <input type="radio" name="inlineRadioOptions" id="lon-lat" value="Lon/Lat" checked> Lon/Lat
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="inlineRadioOptions" id="point" value="Point"> Point
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="inlineRadioOptions" id="linestring" value="Linestring"> Linestring
+        </label>
+
+
+        <div class="input-group">
+            <span class="input-group-addon">Lon/Lat</span>
+            <input type="text" id="lon" class="form-control" placeholder="Longitude " aria-describedby="Longitude">
+            <input type="text" id="lat" class="form-control" placeholder="Latitude " aria-describedby="Latitude">
+        </div>
+        <button type="button" class="btn btn-success" onclick="javascript:OL.drawLonLat();">Draw</button>
+
+    </div>
+    <div id="transform"></div>
+    <div id="search"></div>
+    <div id="route"></div>
+</div>
+
+</body>
+</html>
