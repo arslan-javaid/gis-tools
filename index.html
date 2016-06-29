@@ -15,18 +15,28 @@
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
 
+    <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
     <script type="text/javascript" src="ol/OpenLayers.js"></script>
     <script type="text/javascript" src="map.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+
+    <script type="application/javascript">
+        window.onload=function(){
+            App.init();
+            OL.init();
+        };
+    </script>
 
 </head>
 
-<body onload="OL.init();">
+<body>
 
 <div class="alert alert-success" role="alert"></div>
 <div id="map"></div>
 <div id="content">
     <ul class="nav nav-pills">
         <li role="presentation" class="active"><a href="#draw">Draw</a></li>
+
         <li role="presentation"><a href="#transform">Transform</a></li>
         <li role="presentation"><a href="#">Search</a></li>
         <li role="presentation"><a href="#">Route</a></li>
@@ -37,28 +47,56 @@
             <input type="text" id="projection" class="form-control" placeholder="3857" value="3857" aria-describedby="Longitude">
         </div>
 
-        <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="lon-lat" value="Lon/Lat" checked> Lon/Lat
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="point" value="Point"> Point
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="linestring" value="Linestring"> Linestring
-        </label>
-
-
-        <div class="input-group">
-            <span class="input-group-addon">Lon/Lat</span>
-            <input type="text" id="lon" class="form-control" placeholder="Longitude " aria-describedby="Longitude">
-            <input type="text" id="lat" class="form-control" placeholder="Latitude " aria-describedby="Latitude">
+        <div class="control">
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="lon-lat"  class="chk-draw" checked> Lon/Lat
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="point" class="chk-draw"> Point
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="linestring" class="chk-draw"> Linestring
+            </label>
         </div>
-        <button type="button" class="btn btn-success" onclick="javascript:OL.drawLonLat();">Draw</button>
+
+
+        <div id="lon-lat-content" class="draw-content">
+            <div class="input-group">
+                <span class="input-group-addon">Lon/Lat</span>
+                <input type="text" id="lon" class="form-control" placeholder="Longitude " aria-describedby="Longitude">
+                <input type="text" id="lat" class="form-control" placeholder="Latitude " aria-describedby="Latitude">
+            </div>
+            <button type="button" class="btn btn-success" onclick="javascript:OL.drawLonLat();">Draw</button>
+        </div>
+        <div style="clear:both"></div>
+
+        <div id="point-content" class="draw-content" style="display: none">
+            <div class="input-group">
+                <span class="input-group-addon">Point</span>
+                <input type="text" id="d-point" class="form-control" placeholder="Point " aria-describedby="Point">
+            </div>
+            <button type="button" class="btn btn-success" onclick="javascript:OL.drawPoint();">Draw</button>
+        </div>
+        <div style="clear:both"></div>
+
+        <div id="linestring-content" class="draw-content" style="display: none">
+            <div class="input-group">
+                <span class="input-group-addon">Linestring</span>
+                <input type="text" id="d-linestring" class="form-control" placeholder="Linestring " aria-describedby="Linestring">
+            </div>
+            <button type="button" class="btn btn-success" onclick="javascript:OL.drawLinestring();">Draw</button>
+        </div>
 
     </div>
     <div id="transform"></div>
     <div id="search"></div>
     <div id="route"></div>
+
+
+    <div class="alert alert-success" role="alert" style="display: none;"></div>
+    <div class="alert alert-info" role="alert" style="display: none;"></div>
+    <div class="alert alert-warning" role="alert" style="display: none;"></div>
+    <div class="alert alert-danger" role="alert" style="display: none;"></div>
 </div>
 
 </body>

@@ -18,7 +18,8 @@ body {text-align: center;}
 ul.nav {background: #bfbfbf none repeat scroll 0 0;border-radius: 7px;text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);}
 #map {position:absolute; top:0; left:0; width:100%; height:100%;background-color: #bfcdec;}
 
-div#content {background: #fff none repeat scroll 0 0;border-radius: 7px;padding: 7px;position: absolute;right: 10px;}
-#content > div {padding: 5px;}
+div#content {background: #fff none repeat scroll 0 0;border-radius: 7px;left: 38px;opacity: 0.9;padding: 7px;position: absolute;top: 8px;}
+#content > div {padding: 5px;width: 410px;}
 button.btn-success{float: right;margin-top: 5px;}
 div#projection-content{margin-bottom: 5px;}
+.control {padding-bottom: 10px;}
