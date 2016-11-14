@@ -11,6 +11,15 @@ App = {
             $('#'+this.id+'-content').show();
         });
 
+        $(".nav-pills li").click(function(){
+            $('.content-div').hide();
+            $('.nav-pills li').removeClass('active');
+            $(this).addClass('active');
+            var content = $(this).attr('content');
+            $('#'+content).show();
+            console.log($(this).attr('content'));
+        });
+
     }
 
 };
