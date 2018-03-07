@@ -62,6 +62,31 @@ OL = {
 
         var zoom = 11;
         this.map.setCenter(lonlat, zoom);
+
+        // Style map for route
+        var routeStyleMap = new OpenLayers.StyleMap({
+            strokeColor: "#0000FF",
+            strokeWidth: 4,
+            strokeOpacity: 0.7,
+            fill: "#0000FF",
+            fillOpacity: 0.2
+        });
+
+        // create a lookup table with different symbolizers for 0, 1 and 2
+        var lookup = {
+            0: {strokeColor: "#0000FF", strokeWidth: 7},
+            1: {strokeColor: "#FF0000", strokeWidth: 5, strokeOpacity: 0.8},
+            2: {strokeColor: "#000000", strokeWidth: 5, strokeOpacity: 0.9},
+            3: {strokeColor: "#FFFF00", strokeWidth: 5, strokeOpacity: 0.9}
+        };
+
+        // add rules from the above lookup table, with the keyes mapped to
+        // the "type" property of the features, for the "default" intent
+        routeStyleMap.addUniqueValueRules("default", "type", lookup);
+
+        // Vector layer to draw route
+        this.vectorLayer = new OpenLayers.Layer.Vector("Route",{projection:"EPSG:3857", styleMap: routeStyleMap});
+        this.map.addLayer(this.vectorLayer);
     },
 
     drawLonLat : function(){
@@ -95,6 +120,29 @@ OL = {
 
         var newPoint = 'POINT('+point.x+' '+point.y+')';
         this.notify('POINT',newPoint);
+    },
+
+    drawLinestring : function(){
+        var lon = $('#lon').val();
+        var lat = $('#lat').val();
+        var sp = $('#projection').val();
+        var sourceProj = new OpenLayers.Projection("EPSG:"+sp, {});
+        var lineString= $('#d-linestring').val();
+        var linecolors= [0,1,2,3];
+
+        var parser;
+        if(sp == '3857'){
+            parser = new OpenLayers.Format.WKT();
+        }else{
+            parser = new OpenLayers.Format.WKT({externalProjection: sourceProj, internalProjection: this.map.getProjectionObject()});
+        }
+
+        var lineFeat = parser.read(lineString);
+        lineFeat.attributes.type = linecolors[0];
+        this.vectorLayer.addFeatures(lineFeat);
+        this.map.zoomToExtent(this.vectorLayer.getDataExtent());
+
+
     },
 
     notify : function(title, msg){
