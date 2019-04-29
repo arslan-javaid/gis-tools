@@ -24,3 +24,9 @@ div#content {background: #fff none repeat scroll 0 0;border-radius: 7px;left: 38
 button.btn-success{float: right;margin-top: 5px;}
 div#projection-content{margin-bottom: 5px;}
 .control {padding-bottom: 10px;}
+
+
+/*
+ * Nova
+ */
+#nova span.title-span { min-width: 75px; text-align: left; }

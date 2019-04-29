@@ -5,12 +5,16 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <!-- Latest compiled JavaScript -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
     <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
     <script type="text/javascript" src="ol/OpenLayers.js"></script>
@@ -36,16 +40,52 @@
 <div id="map"></div>
 <div id="content">
     <ul class="nav nav-pills">
-        <li role="presentation" content="draw" class="active"><a>Draw</a></li>
-        <li role="presentation" content="draw"><a>Transform</a></li>
-        <li role="presentation" content="search"><a>Search</a></li>
-        <li role="presentation" content="route"><a>Route</a></li>
+        <li role="presentation" content="nova" class="active"><a>Nova</a></li>
+        <li role="presentation" content="draw"><a>Draw</a></li>
+        <!--<li role="presentation" content="draw"><a>Transform</a></li>-->
+        <!--<li role="presentation" content="search"><a>Search</a></li>-->
+        <!--<li role="presentation" content="route"><a>Route</a></li>-->
     </ul>
+    <!-- Nova -->
+    <div id="nova" class="content-div">
+        <!-- Vehicle -->
+        <div id="nova-content" class="input-group">
+            <span class="input-group-addon title-span">Vehicle</span>
+            <select class="form-control" id="vehicle"></select>
+        </div>
+
+        <!-- From -->
+        <div id="from-content" class="input-group">
+            <span class="input-group-addon title-span">From</span>
+            <div class='input-group date' id='from-date'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon date-icon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+        <!-- To -->
+        <div id="to-content" class="input-group">
+            <span class="input-group-addon title-span">To</span>
+            <div class='input-group date' id='to-date'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon date-icon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+
+        <button type="button" class="btn btn-success" onclick="javascript:OL.drawLocation();">Draw Locations</button>
+    </div>
+
+
     <!-- Draw -->
-    <div id="draw" class="content-div">
+    <div id="draw" class="content-div" style="display: none;">
         <div id="projection-content" class="input-group">
             <span class="input-group-addon">Projection</span>
-            <input type="text" id="projection" class="form-control" placeholder="3857" value="3857" aria-describedby="Longitude">
+            <input type="text" id="projection" class="form-control" placeholder="4326" value="4326" aria-describedby="Longitude">
         </div>
 
         <div class="control">

@@ -55,12 +55,12 @@ OL = {
         );
         this.map.addLayers([OSM,OpenCycleMap,gPhysical,gStreets,gHybrid,gSatellite, earth]);
 
-        var lonlat = new OpenLayers.LonLat(-0.12811289635481413, 51.51127992638647).transform(
+        var lonlat = new OpenLayers.LonLat(-74.45516, 40.84943).transform(
             new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
             new OpenLayers.Projection("EPSG:3857") // to Spherical Mercator
         );
 
-        var zoom = 11;
+        var zoom = 15;
         this.map.setCenter(lonlat, zoom);
 
         // Style map for route
@@ -150,5 +150,42 @@ OL = {
         //$('.panel-title').html(boxTitle);
         //$('.panel-body').html(msg);
         $('.alert-success').html(msg).show();
-    }
+    },
+
+    drawLocation : function () {
+        let self = this,
+            fields = {
+                api_key: this.apiKey,
+                vehicle: $('#vehicle').val(),
+                dateFrom: $('#from-date').data('date'),
+                dateTo: $('#to-date').data('date')
+            };
+
+        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/positions", fields, function(response, status){
+            let lineString = response.body;
+            self.drawNovaLinestring(lineString);
+            console.log(lineString);
+        }).fail(function(jqXHR, status, error) {
+            console.log( "error" );
+        })
+            .always(function() {
+                console.log( "finished" );
+            });
+    },
+
+    drawNovaLinestring : function(lineString){
+
+        let sourceProj = new OpenLayers.Projection("EPSG:4326", {}),
+            linecolors= [0,1,2,3],
+            parser;
+
+        parser = new OpenLayers.Format.WKT({externalProjection: sourceProj, internalProjection: this.map.getProjectionObject()});
+
+        let lineFeat = parser.read(lineString);
+        lineFeat.attributes.type = linecolors[0];
+        this.vectorLayer.addFeatures(lineFeat);
+        this.map.zoomToExtent(this.vectorLayer.getDataExtent());
+
+
+    },
 };
