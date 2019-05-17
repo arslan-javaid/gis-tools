@@ -87,6 +87,9 @@ OL = {
         // Vector layer to draw route
         this.vectorLayer = new OpenLayers.Layer.Vector("Route",{projection:"EPSG:3857", styleMap: routeStyleMap});
         this.map.addLayer(this.vectorLayer);
+
+        markers = new OpenLayers.Layer.Markers( "Markers" );
+        this.map.addLayer(markers);
     },
 
     drawLonLat : function(){
@@ -173,6 +176,35 @@ OL = {
             });
     },
 
+    drawLocationMarker : function() {
+        let self = this,
+            fields = {
+                api_key: this.apiKey,
+                vehicle: $('#vehicle').val(),
+                dateFrom: $('#from-date').data('date'),
+                dateTo: $('#to-date').data('date')
+            };
+
+        // Reset
+        markers.clearMarkers();
+
+        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/locations", fields, function(response, status){
+            let data = response.positions;
+
+            if(data.length > 0){
+                data.forEach(function(loc) {
+                    self.drawMarkersNova(loc['lng'], loc['lat']);
+                });
+            }
+            // console.log(lineString);
+        }).fail(function(jqXHR, status, error) {
+            console.log( "error" );
+        })
+            .always(function() {
+                console.log( "finished" );
+            });
+    },
+
     drawNovaLinestring : function(lineString){
 
         let sourceProj = new OpenLayers.Projection("EPSG:4326", {}),
@@ -188,4 +220,37 @@ OL = {
 
 
     },
+
+    drawMarkersNova : function(lon, lat){
+        let self = this, sourceProjection = new OpenLayers.Projection("EPSG:4326", {}),
+            point = new OpenLayers.Geometry.Point(lon , lat),
+            destProjection = new OpenLayers.Projection("EPSG:3857", {});
+
+        point = new OpenLayers.Projection.transform(point, sourceProjection, destProjection);
+
+
+        var size = new OpenLayers.Size(45,63);
+        var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+        var icon = new OpenLayers.Icon('ol/img/blue-marker.png', size, offset);
+        var lonLat = new OpenLayers.LonLat(point.x,point.y);
+
+        var marker = new OpenLayers.Marker(lonLat,icon);
+        // marker.events.register('mouseover', marker, function(evt) {
+        //     popup = new OpenLayers.Popup.FramedCloud("Popup",
+        //         new OpenLayers.LonLat(5.6, 50.6),
+        //         null,
+        //         '<div>Hello World! Put your html here</div>',
+        //         null,
+        //         false);
+        //     self.map.addPopup(popup);
+        // });
+        // //here add mouseout event
+        // marker.events.register('mouseout', marker, function(evt) {popup.hide();});
+
+
+        markers.addMarker(marker);
+
+        this.map.panTo(lonLat);
+    }
+
 };
