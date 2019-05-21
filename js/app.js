@@ -30,7 +30,7 @@ App = {
 
         // on load
         $(function () {
-            $('.date').datetimepicker({format: 'YYYY-MM-DDTHH:mm:ss' });
+            $('.date').datetimepicker({format: 'YYYY-MM-DDTHH:mm:ss'});
         });
 
     },
@@ -41,6 +41,8 @@ App = {
 
         // Reset
         $vehicle.html('');
+        // Loading
+        $('.loading').show();
 
         $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/", fields, function(response, status){
             let vehicles = response.data;
@@ -56,6 +58,8 @@ App = {
                 console.log( "error" );
             })
             .always(function() {
+                // Loading
+                $('.loading').hide();
                 console.log( "finished" );
             });
     }

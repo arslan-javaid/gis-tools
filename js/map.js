@@ -67,6 +67,7 @@ OL = {
         var routeStyleMap = new OpenLayers.StyleMap({
             strokeColor: "#0000FF",
             strokeWidth: 4,
+            strokeDashstyle: "dash",
             strokeOpacity: 0.7,
             fill: "#0000FF",
             fillOpacity: 0.2
@@ -75,9 +76,9 @@ OL = {
         // create a lookup table with different symbolizers for 0, 1 and 2
         var lookup = {
             0: {strokeColor: "#0000FF", strokeWidth: 7},
-            1: {strokeColor: "#FF0000", strokeWidth: 5, strokeOpacity: 0.8},
-            2: {strokeColor: "#000000", strokeWidth: 5, strokeOpacity: 0.9},
-            3: {strokeColor: "#FFFF00", strokeWidth: 5, strokeOpacity: 0.9}
+            1: {strokeColor: "#FF0000", strokeWidth: 5},
+            2: {strokeColor: "#000000", strokeWidth: 5},
+            3: {strokeColor: "#FFFF00", strokeWidth: 5}
         };
 
         // add rules from the above lookup table, with the keyes mapped to
@@ -164,6 +165,9 @@ OL = {
                 dateTo: $('#to-date').data('date')
             };
 
+        // Reset
+        OL.vectorLayer.removeAllFeatures();
+
         $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/positions", fields, function(response, status){
             let lineString = response.body;
             self.drawNovaLinestring(lineString);
@@ -172,8 +176,21 @@ OL = {
             console.log( "error" );
         })
             .always(function() {
+                // Loading
+                $('.loading').hide();
                 console.log( "finished" );
             });
+    },
+
+    draw : function() {
+        // Loading
+        $('.loading').show();
+
+        // Draw markers
+        this.drawLocationMarker();
+
+        // Draw Linestring
+        this.drawLocation()
     },
 
     drawLocationMarker : function() {
