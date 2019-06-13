@@ -47,8 +47,8 @@
 <div id="map"></div>
 <div id="content">
     <ul class="nav nav-pills">
-        <li role="presentation" content="nova" class="active"><a>Nova</a></li>
-        <li role="presentation" content="door"><a>Door</a></li>
+        <li role="presentation" content="nova"><a>Nova</a></li>
+        <li role="presentation" content="door" class="active"><a>Door</a></li>
         <!--<li role="presentation" content="draw"><a>Transform</a></li>-->
         <!--<li role="presentation" content="search"><a>Search</a></li>-->
         <!--<li role="presentation" content="route"><a>Route</a></li>-->
@@ -56,7 +56,7 @@
         <li class="pull-right" role="presentation" content="draw"><a>Draw</a></li>
     </ul>
     <!-- Nova -->
-    <div id="nova" class="content-div">
+    <div id="nova" class="content-div" style="display: none;">
         <!-- Vehicle -->
         <div id="nova-content" class="input-group">
             <span class="input-group-addon title-span">Vehicle</span>
@@ -164,7 +164,14 @@
     </div>
 
     <!-- Door -->
-    <div id="door" class="content-div" style="display: none;">
+    <div id="door" class="content-div">
+        <!-- Door -->
+        <div id="nova-door" class="input-group">
+            <span class="input-group-addon title-span">Door</span>
+            <select class="form-control" id="doors-select">
+                <option value="4491600000F7CD65">MacPk IoT</option>
+            </select>
+        </div>
 
         <div id="door-content">
             <div class="perspective" onclick="oDoor.openDoor(this)">
