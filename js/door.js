@@ -13,7 +13,7 @@ Door.prototype.init = function() {
     let self = this;
     self.drawChart(labArray,dataArray);
 
-    setInterval(function(){ self.doorStatus(); }, 3000);
+    setInterval(function(){ self.doorStatus(); }, 5000);
 
     self.chartData();
 
