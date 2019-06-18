@@ -284,10 +284,12 @@ OL = {
         markers.addMarker(marker);
 
         marker.events.register("click", marker, function(e){
-            let html = '';
+            let html = '',
+                vehicle = App.getVehicleById(marker['data'].vehicleId);
             html = '<h3>Vehicle detail:</h3>';
             html += '<table class="table">';
             html += '<tr><th scope="col">vehicleId</th><td>'+marker['data'].vehicleId+'</td></tr>';
+            html += '<tr><th scope="col">Name</th><td>'+vehicle[0].name+'</td></tr>';
             html += '<tr><th scope="col">GPS DateTime</th><td>'+marker['data'].gpsDateTime+'</td></tr>';
             html += '<tr><th scope="col">lat</th><td>'+marker['data'].lat+'</td></tr>';
             html += '<tr><th scope="col">lng</th><td>'+marker['data'].lng+'</td></tr>';
@@ -303,7 +305,8 @@ OL = {
             self.map.addPopup(popup);
         });
 
-        this.map.panTo(lonLat);
+        // this.map.panTo(lonLat);
+        this.map.zoomToExtent(markers.getDataExtent());
     }
 
 };

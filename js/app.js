@@ -9,6 +9,8 @@ App = {
     pageSize : '50',
     apiKey : '4EE1FE4ACE448CC73D0C3E5BB5343BD1',
 
+    _vehicles : [],
+
     init : function(){
 
         $(".chk-draw").change(function() {
@@ -36,7 +38,7 @@ App = {
     },
 
     getVehicles : function () {
-        let $vehicle = $('#vehicle'),
+        let self = this, $vehicle = $('#vehicle'),
             fields = { api_key: this.apiKey, pageNum: this.pageNum, pageSize: this.pageSize };
 
         // Reset
@@ -46,8 +48,7 @@ App = {
 
         $.get("js/data/vehicles.json", fields, function(response, status){
             let vehicles = response.data;
-
-            console.log(response);
+            self._vehicles = vehicles;
 
             $.each(vehicles, function( key, vehicle ) {
                 $vehicle.append($("<option></option>")
@@ -66,6 +67,10 @@ App = {
                 $('.loading').hide();
                 console.log( "finished" );
             });
+    },
+
+    getVehicleById : function (vehicleId) {
+        return $.grep(this._vehicles, function(e){ return e.vehicleId == vehicleId; });
     }
 
 };

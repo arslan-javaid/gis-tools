@@ -203,7 +203,7 @@ h3 {
 #vehicle-popup .olPopupCloseBox {
     background: url(../ol/img/close-button-icon.png) no-repeat;
     cursor: pointer;
-    top: 59px !important;
+    margin-top: 2rem !important;
     right: 13px !important;
 }
 button.multiselect.dropdown-toggle.btn.btn-default {
