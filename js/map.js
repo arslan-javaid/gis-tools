@@ -200,29 +200,34 @@ OL = {
         let self = this,
             fields = {
                 api_key: this.apiKey,
-                vehicle: $('#vehicle').val(),
                 dateFrom: $('#from-date').data('date'),
                 dateTo: $('#to-date').data('date')
-            };
+            },
+            vehicles = $('#vehicle').val(),
+            icons = ["ol/img/blue-marker.png","ol/img/marker1.png","ol/img/marker2.png", "ol/img/marker3.png"];
 
         // Reset
         markers.clearMarkers();
 
-        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/locations", fields, function(response, status){
-            let data = response.positions;
 
-            if(data.length > 0){
-                data.forEach(function(loc) {
-                    self.drawMarkersNova(loc);
-                });
-            }
-            // console.log(lineString);
-        }).fail(function(jqXHR, status, error) {
-            console.log( "error" );
-        })
-            .always(function() {
+        for (let i=0; i<vehicles.length; i++) {
+
+            fields['vehicle'] = vehicles[i];
+
+            $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/locations", fields, function(response, status){
+                let data = response.positions;
+
+                if(data.length > 0){
+                    data.forEach(function(loc) {
+                        self.drawMarkersNova(loc, icons[i]);
+                    });
+                }
+            }).fail(function(jqXHR, status, error) {
+                console.log( "error" );
+            }).always(function() {
                 console.log( "finished" );
             });
+        }
     },
 
     drawNovaLinestring : function(lineString){
@@ -252,7 +257,7 @@ OL = {
 
             if(vehicles.length > 0){
                 vehicles.forEach(function(loc) {
-                    self.drawMarkersNova(loc);
+                    self.drawMarkersNova(loc, 'ol/img/blue-marker.png');
                 });
             }
         }).fail(function(jqXHR, status, error) {
@@ -265,7 +270,7 @@ OL = {
             });
     },
 
-    drawMarkersNova : function(location){
+    drawMarkersNova : function(location, markerIcon){
         let self = this, sourceProjection = new OpenLayers.Projection("EPSG:4326", {}),
             point = new OpenLayers.Geometry.Point(location['lng'], location['lat']),
             destProjection = new OpenLayers.Projection("EPSG:3857", {});
@@ -275,7 +280,7 @@ OL = {
 
         let size = new OpenLayers.Size(45,63),
             offset = new OpenLayers.Pixel(-(size.w/2), -size.h),
-            icon = new OpenLayers.Icon('ol/img/blue-marker.png', size, offset),
+            icon = new OpenLayers.Icon(markerIcon, size, offset),
             lonLat = new OpenLayers.LonLat(point.x,point.y),
             marker = new OpenLayers.Marker(lonLat,icon);
         marker.data = location;
