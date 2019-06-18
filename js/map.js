@@ -210,7 +210,7 @@ OL = {
 
             if(data.length > 0){
                 data.forEach(function(loc) {
-                    self.drawMarkersNova(loc['lng'], loc['lat']);
+                    self.drawMarkersNova(loc);
                 });
             }
             // console.log(lineString);
@@ -238,34 +238,43 @@ OL = {
 
     },
 
-    drawMarkersNova : function(lon, lat){
+    drawMarkersNova : function(location){
         let self = this, sourceProjection = new OpenLayers.Projection("EPSG:4326", {}),
-            point = new OpenLayers.Geometry.Point(lon , lat),
+            point = new OpenLayers.Geometry.Point(location['lng'], location['lat']),
             destProjection = new OpenLayers.Projection("EPSG:3857", {});
 
         point = new OpenLayers.Projection.transform(point, sourceProjection, destProjection);
 
 
-        var size = new OpenLayers.Size(45,63);
-        var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-        var icon = new OpenLayers.Icon('ol/img/blue-marker.png', size, offset);
-        var lonLat = new OpenLayers.LonLat(point.x,point.y);
-
-        var marker = new OpenLayers.Marker(lonLat,icon);
-        // marker.events.register('mouseover', marker, function(evt) {
-        //     popup = new OpenLayers.Popup.FramedCloud("Popup",
-        //         new OpenLayers.LonLat(5.6, 50.6),
-        //         null,
-        //         '<div>Hello World! Put your html here</div>',
-        //         null,
-        //         false);
-        //     self.map.addPopup(popup);
-        // });
-        // //here add mouseout event
-        // marker.events.register('mouseout', marker, function(evt) {popup.hide();});
+        let size = new OpenLayers.Size(45,63),
+            offset = new OpenLayers.Pixel(-(size.w/2), -size.h),
+            icon = new OpenLayers.Icon('ol/img/blue-marker.png', size, offset),
+            lonLat = new OpenLayers.LonLat(point.x,point.y),
+            marker = new OpenLayers.Marker(lonLat,icon);
+        marker.data = location;
 
 
         markers.addMarker(marker);
+
+        marker.events.register("click", marker, function(e){
+            let html = '';
+            html = '<h3>Vehicle detail:</h3>';
+            html += '<table class="table">';
+            html += '<tr><th scope="col">vehicleId</th><td>'+marker['data'].vehicleId+'</td></tr>';
+            html += '<tr><th scope="col">GPS DateTime</th><td>'+marker['data'].gpsDateTime+'</td></tr>';
+            html += '<tr><th scope="col">lat</th><td>'+marker['data'].lat+'</td></tr>';
+            html += '<tr><th scope="col">lng</th><td>'+marker['data'].lng+'</td></tr>';
+            html += '<tr><th scope="col">speedKPH</th><td>'+marker['data'].speedKPH+'</td></tr>';
+            html += '</table>';
+
+            popup = new OpenLayers.Popup.FramedCloud("vehicle-popup",
+                marker.lonlat,
+                new OpenLayers.Size(200, 200),
+                html,
+                null, true);
+
+            self.map.addPopup(popup);
+        });
 
         this.map.panTo(lonLat);
     }

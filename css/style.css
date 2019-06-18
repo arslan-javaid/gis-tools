@@ -183,4 +183,32 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 
+/**
+    Popup
+ */
 
+div#vehicle-popup_contentDiv {
+    padding: 0;
+}
+div#vehicle-popup_contentDiv {
+    width: 301px !important;
+}
+h3 {
+    background: #337ab7;
+    color: #fff;
+    padding: 1rem;
+    margin-top: 4px;
+    border-radius: 5px;
+}
+#vehicle-popup .olPopupCloseBox {
+    background: url(../ol/img/close-button-icon.png) no-repeat;
+    cursor: pointer;
+    top: 59px !important;
+    right: 13px !important;
+}
+button.multiselect.dropdown-toggle.btn.btn-default {
+    border: 1px solid #ccc;
+}
+ul.multiselect-container.dropdown-menu {
+    width: 324px;
+}

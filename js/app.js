@@ -53,7 +53,9 @@ App = {
                     .text(vehicle['name']));
             });
 
-            console.log(vehicles);
+            $vehicle.multiselect({
+                buttonWidth: '100%'
+            });
         }).fail(function(jqXHR, status, error) {
                 console.log( "error" );
             })
