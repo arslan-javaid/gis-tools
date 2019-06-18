@@ -1,0 +1,63 @@
+{
+    "totalCount": 8,
+    "pageNum": 1,
+    "pageSize": 100,
+    "data": [
+        {
+            "vehicleId": "1049",
+            "gpsDateTime": "2019-05-02T23:15:07Z",
+            "lat": 40.86511,
+            "lng": -74.39088,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "0",
+            "gpsDateTime": "2019-05-15T21:45:54Z",
+            "lat": 33.12222,
+            "lng": -117.28574,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "1146",
+            "gpsDateTime": "2019-05-15T22:00:39Z",
+            "lat": 33.12244,
+            "lng": -117.28592,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "467",
+            "gpsDateTime": "2019-05-21T20:12:15Z",
+            "lat": 40.84938,
+            "lng": -74.45603,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "468",
+            "gpsDateTime": "2019-06-18T08:35:01Z",
+            "lat": 40.84956,
+            "lng": -74.45547,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "1121",
+            "gpsDateTime": "2019-06-18T08:30:48Z",
+            "lat": 40.86526,
+            "lng": -74.3907,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "1051",
+            "gpsDateTime": "2019-06-18T01:39:48Z",
+            "lat": 40.84977,
+            "lng": -74.45554,
+            "speedKPH": 0
+        },
+        {
+            "vehicleId": "1050",
+            "gpsDateTime": "2019-06-18T03:55:52Z",
+            "lat": 40.38525,
+            "lng": -74.54567,
+            "speedKPH": 0
+        }
+    ]
+}

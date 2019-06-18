@@ -44,8 +44,10 @@ App = {
         // Loading
         $('.loading').show();
 
-        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/", fields, function(response, status){
+        $.get("js/data/vehicles.json", fields, function(response, status){
             let vehicles = response.data;
+
+            console.log(response);
 
             $.each(vehicles, function( key, vehicle ) {
                 $vehicle.append($("<option></option>")

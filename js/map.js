@@ -91,6 +91,9 @@ OL = {
 
         markers = new OpenLayers.Layer.Markers( "Markers" );
         this.map.addLayer(markers);
+
+        // Display all vehicles
+        this.displayAllVehicles()
     },
 
     drawLonLat : function(){
@@ -236,6 +239,30 @@ OL = {
         this.map.zoomToExtent(this.vectorLayer.getDataExtent());
 
 
+    },
+
+    displayAllVehicles : function () {
+        // Loading
+        $('.loading').show();
+
+        let self = this;
+
+        $.get("js/data/locations.json", function(response, status){
+            let vehicles = response.data;
+
+            if(vehicles.length > 0){
+                vehicles.forEach(function(loc) {
+                    self.drawMarkersNova(loc);
+                });
+            }
+        }).fail(function(jqXHR, status, error) {
+            console.log( "error" );
+        })
+            .always(function() {
+                // Loading
+                $('.loading').hide();
+                console.log( "finished" );
+            });
     },
 
     drawMarkersNova : function(location){

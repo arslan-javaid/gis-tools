@@ -1,0 +1,103 @@
+{
+  "totalCount": 6,
+  "pageNum": 1,
+  "pageSize": 50,
+  "data": [
+    {
+      "vehicleId": 467,
+      "customerId": 73,
+      "name": "NOVA-001",
+      "vin": "",
+      "make": "",
+      "model": "",
+      "year": "",
+      "color": "",
+      "description": "",
+      "estimatedFuel": null,
+      "vehicleGroup": {
+        "id": 77,
+        "name": "Default"
+      }
+    },
+    {
+      "vehicleId": 468,
+      "customerId": 73,
+      "name": "NOVA-002",
+      "vin": "",
+      "make": "",
+      "model": "",
+      "year": "",
+      "color": "",
+      "description": "",
+      "estimatedFuel": null,
+      "vehicleGroup": {
+        "id": 77,
+        "name": "Default"
+      }
+    },
+    {
+      "vehicleId": 1050,
+      "customerId": 73,
+      "name": "NOVA-004",
+      "vin": "",
+      "make": "",
+      "model": "",
+      "year": "",
+      "color": "",
+      "description": "",
+      "estimatedFuel": null,
+      "vehicleGroup": {
+        "id": 77,
+        "name": "Default"
+      }
+    },
+    {
+      "vehicleId": 1051,
+      "customerId": 73,
+      "name": "NOVA-003",
+      "vin": "",
+      "make": "",
+      "model": "",
+      "year": "",
+      "color": "",
+      "description": "",
+      "estimatedFuel": null,
+      "vehicleGroup": {
+        "id": 77,
+        "name": "Default"
+      }
+    },
+    {
+      "vehicleId": 1121,
+      "customerId": 73,
+      "name": "NOVA-005",
+      "vin": "",
+      "make": "Toyota",
+      "model": "Prius",
+      "year": "2007",
+      "color": "Gray",
+      "description": "",
+      "estimatedFuel": null,
+      "vehicleGroup": {
+        "id": 77,
+        "name": "Default"
+      }
+    },
+    {
+      "vehicleId": 1146,
+      "customerId": 73,
+      "name": "866425038592665",
+      "vin": "",
+      "make": "",
+      "model": "",
+      "year": "",
+      "color": "",
+      "description": "866425038592665 RMA test, 1>Battery Too low",
+      "estimatedFuel": null,
+      "vehicleGroup": {
+        "id": 77,
+        "name": "Default"
+      }
+    }
+  ]
+}
