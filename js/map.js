@@ -5,6 +5,8 @@
 
 OL = {
     map : null,
+    icons: ["ol/img/blue-marker.png","ol/img/marker1.png","ol/img/marker2.png", "ol/img/marker3.png", "ol/img/marker4.png", "ol/img/marker5.png"],
+
     init : function() {
         this.buildMap();
     },
@@ -203,8 +205,7 @@ OL = {
                 dateFrom: $('#from-date').data('date'),
                 dateTo: $('#to-date').data('date')
             },
-            vehicles = $('#vehicle').val(),
-            icons = ["ol/img/blue-marker.png","ol/img/marker1.png","ol/img/marker2.png", "ol/img/marker3.png"];
+            vehicles = $('#vehicle').val();
 
         // Reset
         markers.clearMarkers();
@@ -219,7 +220,7 @@ OL = {
 
                 if(data.length > 0){
                     data.forEach(function(loc) {
-                        self.drawMarkersNova(loc, icons[i]);
+                        self.drawMarkersNova(loc, self.icons[i]);
                     });
                 }
             }).fail(function(jqXHR, status, error) {
@@ -256,8 +257,8 @@ OL = {
             let vehicles = response.data;
 
             if(vehicles.length > 0){
-                vehicles.forEach(function(loc) {
-                    self.drawMarkersNova(loc, 'ol/img/blue-marker.png');
+                vehicles.forEach(function (loc, i) {
+                    self.drawMarkersNova(loc, self.icons[i%6]);
                 });
             }
         }).fail(function(jqXHR, status, error) {
