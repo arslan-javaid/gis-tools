@@ -78,9 +78,10 @@ OL = {
         // create a lookup table with different symbolizers for 0, 1 and 2
         var lookup = {
             0: {strokeColor: "#0000FF", strokeWidth: 7},
-            1: {strokeColor: "#FF0000", strokeWidth: 5},
-            2: {strokeColor: "#000000", strokeWidth: 5},
-            3: {strokeColor: "#FFFF00", strokeWidth: 5}
+            1: {strokeColor: "#F53C9E", strokeWidth: 7},
+            2: {strokeColor: "#FF0000", strokeWidth: 5},
+            3: {strokeColor: "#000000", strokeWidth: 5},
+            4: {strokeColor: "#FFFF00", strokeWidth: 5}
         };
 
         // add rules from the above lookup table, with the keyes mapped to
@@ -165,26 +166,30 @@ OL = {
         let self = this,
             fields = {
                 api_key: this.apiKey,
-                vehicle: $('#vehicle').val(),
                 dateFrom: $('#from-date').data('date'),
                 dateTo: $('#to-date').data('date')
-            };
+            },
+            vehicles = $('#vehicle').val();
 
         // Reset
         OL.vectorLayer.removeAllFeatures();
 
-        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/positions", fields, function(response, status){
-            let lineString = response.body;
-            self.drawNovaLinestring(lineString);
-            console.log(lineString);
-        }).fail(function(jqXHR, status, error) {
-            console.log( "error" );
-        })
-            .always(function() {
+        for (let i=0; i<vehicles.length; i++) {
+
+            fields['vehicle'] = vehicles[i];
+
+            $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/positions", fields, function(response, status){
+                let lineString = response.body;
+                self.drawNovaLinestring(lineString, i);
+                console.log(lineString);
+            }).fail(function(jqXHR, status, error) {
+                console.log( "error" );
+            }).always(function() {
                 // Loading
                 $('.loading').hide();
                 console.log( "finished" );
             });
+        }
     },
 
     draw : function() {
@@ -231,7 +236,7 @@ OL = {
         }
     },
 
-    drawNovaLinestring : function(lineString){
+    drawNovaLinestring : function(lineString, color){
 
         let sourceProj = new OpenLayers.Projection("EPSG:4326", {}),
             linecolors= [0,1,2,3],
@@ -240,7 +245,7 @@ OL = {
         parser = new OpenLayers.Format.WKT({externalProjection: sourceProj, internalProjection: this.map.getProjectionObject()});
 
         let lineFeat = parser.read(lineString);
-        lineFeat.attributes.type = linecolors[0];
+        lineFeat.attributes.type = linecolors[color];
         this.vectorLayer.addFeatures(lineFeat);
         this.map.zoomToExtent(this.vectorLayer.getDataExtent());
 
