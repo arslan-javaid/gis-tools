@@ -51,9 +51,10 @@ App = {
             self._vehicles = vehicles;
 
             $.each(vehicles, function( key, vehicle ) {
-                $vehicle.append($("<option></option>")
-                    .attr("value",vehicle['vehicleId'])
-                    .text(vehicle['name']));
+                let $option = $('<option></option>');
+                $option.attr("value",vehicle['vehicleId'])
+                    .text(vehicle['vehicleId'] + ' : ' + vehicle['name']);
+                $vehicle.append($option);
             });
 
             $vehicle.multiselect({
