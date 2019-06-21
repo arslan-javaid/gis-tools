@@ -171,25 +171,41 @@ OL = {
             },
             vehicles = $('#vehicle').val();
 
+        vehicles = (vehicles) ? vehicles : [];
+
         // Reset
         OL.vectorLayer.removeAllFeatures();
 
+        if(vehicles.length == 0)
+            this.getVehicle(null,0);
+
         for (let i=0; i<vehicles.length; i++) {
-
-            fields['vehicle'] = vehicles[i];
-
-            $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/positions", fields, function(response, status){
-                let lineString = response.body;
-                self.drawNovaLinestring(lineString, i);
-                console.log(lineString);
-            }).fail(function(jqXHR, status, error) {
-                console.log( "error" );
-            }).always(function() {
-                // Loading
-                $('.loading').hide();
-                console.log( "finished" );
-            });
+            this.getVehicle(vehicles[i], i);
         }
+    },
+
+    getVehicle : function(vehicle, index) {
+        let self = this,
+            fields = {
+                api_key: this.apiKey,
+                dateFrom: $('#from-date').data('date'),
+                dateTo: $('#to-date').data('date')
+            };
+
+        fields['vehicle'] = vehicle;
+        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/positions", fields, function(response, status){
+            let lineString = response.body;
+            self.drawNovaLinestring(lineString, index);
+            $('.loading').hide();
+            console.log(lineString);
+        }).fail(function(jqXHR, status, error) {
+            console.log( "error" );
+            $('.loading').hide();
+        }).always(function() {
+            // Loading
+            $('.loading').hide();
+            console.log( "finished" );
+        });
     },
 
     draw : function() {
@@ -204,36 +220,43 @@ OL = {
     },
 
     drawLocationMarker : function() {
+        let vehicles = $('#vehicle').val();
+
+        vehicles = (vehicles) ? vehicles : [];
+
+        // Reset
+        markers.clearMarkers();
+
+        if(vehicles.length == 0)
+            this.getLocation(null,0);
+
+        for (let i=0; i<vehicles.length; i++) {
+            this.getLocation(vehicles[i], i);
+        }
+    },
+
+    getLocation : function(vehicle, markerIndex){
         let self = this,
             fields = {
                 api_key: this.apiKey,
                 dateFrom: $('#from-date').data('date'),
                 dateTo: $('#to-date').data('date')
-            },
-            vehicles = $('#vehicle').val();
+            };
 
-        // Reset
-        markers.clearMarkers();
+        fields['vehicle'] = vehicle;
+        $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/locations", fields, function(response, status){
+            let data = response.positions;
 
-
-        for (let i=0; i<vehicles.length; i++) {
-
-            fields['vehicle'] = vehicles[i];
-
-            $.get("https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/locations", fields, function(response, status){
-                let data = response.positions;
-
-                if(data.length > 0){
-                    data.forEach(function(loc) {
-                        self.drawMarkersNova(loc, self.icons[i]);
-                    });
-                }
-            }).fail(function(jqXHR, status, error) {
-                console.log( "error" );
-            }).always(function() {
-                console.log( "finished" );
-            });
-        }
+            if(data.length > 0){
+                data.forEach(function(loc) {
+                    self.drawMarkersNova(loc, self.icons[markerIndex]);
+                });
+            }
+        }).fail(function(jqXHR, status, error) {
+            console.log( "error" );
+        }).always(function() {
+            console.log( "finished" );
+        });
     },
 
     drawNovaLinestring : function(lineString, color){
