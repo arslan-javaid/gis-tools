@@ -32,7 +32,8 @@ App = {
 
         // on load
         $(function () {
-            $('.date').datetimepicker({format: 'YYYY-MM-DDTHH:mm:ss'});
+            $('.date').datetimepicker({format: 'Y-m-d H:m:i'});
+            // $('.date').datetimepicker({format: 'YYYY-MM-DDTHH:mm:ss'});
         });
 
     },
