@@ -1,5 +1,7 @@
 function Door() {
 
+    this._urlNove = 'https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/door_status';
+    this._urlMachineQ = 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/door_status';
     this.init();
 }
 
@@ -59,13 +61,15 @@ Door.prototype.openDoor = function (field) {
 Door.prototype.doorStatus = function () {
     let $doorSelect = $('#doors-select'),
         $door =  $(".thumb"),
+        url = ($doorSelect.val() === 'nova') ? this._urlNove : this._urlMachineQ,
         fields = { DevEUI: $doorSelect.val() };
 
     // Loading
     $('.loading').show();
 
+
     $.ajax({
-        url: 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/door_status',
+        url: url,
         type: 'post',
         dataType: 'json',
         contentType: 'application/json',
@@ -80,18 +84,4 @@ Door.prototype.doorStatus = function () {
         },
         data: JSON.stringify(fields)
     });
-
-    // $.post("https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/contact", fields, function(response, status){
-    // $.post("http://localhost:3000/contact", fields, function(response, status){
-    //     let data = response.data;
-    //
-    //     console.log(data);
-    // }).fail(function(jqXHR, status, error) {
-    //     console.log( "error" );
-    // })
-    //     .always(function() {
-    //         // Loading
-    //         $('.loading').hide();
-    //         console.log( "finished" );
-    //     });
 };
