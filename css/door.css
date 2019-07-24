@@ -3,6 +3,16 @@ div#door-content {
     width: 36%;
 }
 
+.loader {
+    width: 100%;
+    height: 42px;
+}
+
+.loader .loading {
+    margin-top: 1rem;
+    margin-right: 11rem;
+}
+
 .perspective
 {
     background: url("../img/doorBorder.png");
