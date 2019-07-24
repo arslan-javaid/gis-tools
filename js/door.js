@@ -6,8 +6,9 @@ function Door() {
 }
 
 Door.prototype.init = function() {
-    let labArray=['05-21', '05-22', '05-23', '05-24', '05-26', '05-27'];
-    let dataArray=[12, 19, 3, 5, 2, 3];
+    let labArray=['05-21', '05-22', '05-23', '05-24', '05-26', '05-27'],
+        dataArray=[12, 19, 3, 5, 2, 3],
+        $doorSelect = $('#doors-select');
     // check status
     this.doorStatus();
 
@@ -17,14 +18,16 @@ Door.prototype.init = function() {
 
     setInterval(function(){ self.doorStatus(); }, 5000);
 
-    self.chartData();
+    if($doorSelect.val() === 'nova')
+        self.chartData();
 
     // Events
     $('#door').on('change', function(){
         // check status
         self.doorStatus();
         // Charts
-        self.chartData();
+        if($doorSelect.val() === 'nova')
+            self.chartData();
     });
 };
 
@@ -74,7 +77,7 @@ Door.prototype.chartData = function () {
         },
     });
 
-}
+};
 
 Door.prototype.drawChart=function(labArray,dataArray){
     let ctx = document.getElementById('canvas').getContext('2d');
@@ -104,16 +107,13 @@ Door.prototype.drawChart=function(labArray,dataArray){
             }
         }
     });
-}
+};
 
 Door.prototype.doorStatus = function () {
     let $doorSelect = $('#doors-select'),
         $door =  $(".thumb"),
         url = ($doorSelect.val() === 'nova') ? this._urlNove : this._urlMachineQ,
         fields = { DevEUI: $doorSelect.val() };
-
-    // Loading
-    $('.loading').show();
 
 
     $.ajax({
