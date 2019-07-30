@@ -2,13 +2,15 @@ function Door() {
 
     this._urlNove = 'https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/door_status';
     this._urlMachineQ = 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/door_status';
+    this._gates = ['1818'];
     this.init();
 }
 
 Door.prototype.init = function() {
     let labArray=['05-21', '05-22', '05-23', '05-24', '05-26', '05-27'],
         dataArray=[12, 19, 3, 5, 2, 3],
-        $doorSelect = $('#doors-select');
+        $doorSelect = $('#doors-select'),
+        vehicleId = $doorSelect.val();
     // check status
     this.doorStatus();
 
@@ -18,16 +20,15 @@ Door.prototype.init = function() {
 
     setInterval(function(){ self.doorStatus(); }, 5000);
 
-    if($doorSelect.val() === 'nova')
-        self.chartData();
+
+    self.chartData();
 
     // Events
     $('#door').on('change', function(){
+        let vehicleId = $doorSelect.val();
         // check status
         self.doorStatus();
-        // Charts
-        if($doorSelect.val() === 'nova')
-            self.chartData();
+        self.chartData();
     });
 };
 
@@ -110,10 +111,17 @@ Door.prototype.drawChart=function(labArray,dataArray){
 };
 
 Door.prototype.doorStatus = function () {
-    let $doorSelect = $('#doors-select'),
-        $door =  $(".thumb"),
-        url = ($doorSelect.val() === 'nova') ? this._urlNove : this._urlMachineQ,
-        fields = { DevEUI: $doorSelect.val() };
+    let url, fields, $doorSelect = $('#doors-select'), vehicleId = $doorSelect.val(),
+        $door =  $(".thumb");
+
+
+    if(this._gates.includes(vehicleId)){
+        url =  this._urlNove;
+        fields = { vehicleId: vehicleId };
+    } else{
+        url =  this._urlMachineQ;
+        fields = { DevEUI: vehicleId };
+    }
 
 
     $.ajax({
