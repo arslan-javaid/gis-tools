@@ -268,6 +268,29 @@ OL = {
         markers.addMarker(marker);
 
         this.map.panTo(lonLat);
+    },
+
+    setLocation : function(lon, lat){
+        let sourceProjection = new OpenLayers.Projection("EPSG:4326", {}),
+            point = new OpenLayers.Geometry.Point(lon , lat),
+            destProjection = new OpenLayers.Projection("EPSG:3857", {});
+
+        point = new OpenLayers.Projection.transform(point, sourceProjection, destProjection);
+
+
+        var size = new OpenLayers.Size(60,60);
+        var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+        var icon = new OpenLayers.Icon('ol/img/circle.png', size, offset);
+        var lonLat = new OpenLayers.LonLat(point.x,point.y);
+
+        var marker = new OpenLayers.Marker(lonLat,icon);
+
+
+
+        markers.addMarker(marker);
+
+        this.map.panTo(lonLat);
+        this.map.zoomTo(18);
     }
 
 };

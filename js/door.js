@@ -1,6 +1,6 @@
 function Door() {
 
-    this._urlNove = 'https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/door_status';
+    this._urlNove = 'https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/';
     this._urlMachineQ = 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/door_status';
     this._gates = ['1818'];
     this.init();
@@ -13,6 +13,7 @@ Door.prototype.init = function() {
         vehicleId = $doorSelect.val();
     // check status
     this.doorStatus();
+    this.setLocation();
 
     // Check Door status
     let self = this;
@@ -27,9 +28,31 @@ Door.prototype.init = function() {
     $('#door').on('change', function(){
         let vehicleId = $doorSelect.val();
         // check status
+        self.setLocation();
         self.doorStatus();
         self.chartData();
     });
+};
+
+Door.prototype.setLocation = function () {
+    let url, fields, $doorSelect = $('#doors-select'), vehicleId = $doorSelect.val();
+
+
+    if(this._gates.includes(vehicleId)){
+        url =  this._urlNove + 'vehicalepos';
+        fields = { vehicle: vehicleId };
+
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                OL.setLocation(data.lng, data.lat)
+            }
+        });
+    }
 };
 
 Door.prototype.openDoor = function (field) {
@@ -116,7 +139,7 @@ Door.prototype.doorStatus = function () {
 
 
     if(this._gates.includes(vehicleId)){
-        url =  this._urlNove;
+        url =  this._urlNove + 'door_status';
         fields = { vehicleId: vehicleId };
     } else{
         url =  this._urlMachineQ;
