@@ -1,7 +1,7 @@
 function Door() {
 
     this._urlNove = 'https://v1jc1ohvc3.execute-api.us-east-1.amazonaws.com/dev/';
-    this._urlMachineQ = 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/door_status';
+    this._urlMachineQ = 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/';
     this._gates = ['1818'];
     this.init();
 }
@@ -70,15 +70,20 @@ Door.prototype.openDoor = function (field) {
 
 Door.prototype.chartData = function () {
 
-    let $doorSelect = $('#doors-select'),
-    fields = { DevEUI: $doorSelect.val() };
-    let self = this;
-    let dataArray=[];
+    let self = this, url, dataArray=[], fields, $doorSelect = $('#doors-select'),  vehicleId = $doorSelect.val();
+
+    if(this._gates.includes(vehicleId)){
+        url =  this._urlNove + 'door_count';
+        fields = { vehicleId: vehicleId };
+    } else{
+        url =  this._urlMachineQ + 'contact';
+        fields = { DevEUI: vehicleId };
+    }
 
     // Loading
     $('.loading').show();
     $.ajax({
-        url: 'https://twms75ak6c.execute-api.us-east-1.amazonaws.com/dev/contact',
+        url: url,
         type: 'post',
         dataType: 'json',
         contentType: 'application/json',
@@ -142,7 +147,7 @@ Door.prototype.doorStatus = function () {
         url =  this._urlNove + 'door_status';
         fields = { vehicleId: vehicleId };
     } else{
-        url =  this._urlMachineQ;
+        url =  this._urlMachineQ + 'door_status';
         fields = { DevEUI: vehicleId };
     }
 
