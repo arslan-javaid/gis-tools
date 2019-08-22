@@ -49,7 +49,7 @@ Door.prototype.setLocation = function () {
             contentType: 'application/json',
             success: function (data) {
                 console.log(data);
-                OL.setLocation(data.lng, data.lat)
+                OL.setLocation(data.lng, data.lat);
             }
         });
     }
@@ -166,6 +166,8 @@ Door.prototype.doorStatus = function () {
             } else {
                 $door.removeClass("thumbOpened");
             }
+
+            OL.setLocation(data.lng, data.lat);
         },
         data: JSON.stringify(fields)
     });
