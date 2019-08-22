@@ -167,7 +167,7 @@ Door.prototype.doorStatus = function () {
                 $door.removeClass("thumbOpened");
             }
 
-            OL.setLocation(data.lng, data.lat);
+            // OL.setLocation(data.lng, data.lat);
         },
         data: JSON.stringify(fields)
     });
