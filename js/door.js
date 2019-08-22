@@ -139,7 +139,7 @@ Door.prototype.drawChart=function(labArray,dataArray){
 };
 
 Door.prototype.doorStatus = function () {
-    let url, fields, $doorSelect = $('#doors-select'), vehicleId = $doorSelect.val(),
+    let self = this, url, fields, $doorSelect = $('#doors-select'), vehicleId = $doorSelect.val(),
         $door =  $(".thumb");
 
 
@@ -168,7 +168,43 @@ Door.prototype.doorStatus = function () {
             }
 
             OL.setLocation(data.lng, data.lat);
+
+            if(typeof data.msgDateTime !== 'undefined') {
+                let current_date = new Date(),
+                    datetime  = new Date(data.msgDateTime),
+                    timeAgo = self.timeSince(current_date, datetime);
+
+                $('#doorStateTime').html(data.doorStatus + ' ' + timeAgo + ' ago!!!');
+            }
         },
         data: JSON.stringify(fields)
     });
+};
+
+Door.prototype.timeSince = function (current_date, date) {
+    //notification update
+    let seconds = Math.floor((current_date - date) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+        return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
 };

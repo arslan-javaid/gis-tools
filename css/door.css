@@ -39,3 +39,9 @@ div#door-content {
     opacity: 0;
     transition: visibility 0.5s, opacity 3s linear;
 }
+
+#doorStateTime {
+    position: absolute;
+    left: 2rem;
+    font-weight: bold;
+}
