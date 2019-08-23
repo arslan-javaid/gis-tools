@@ -44,4 +44,6 @@ div#door-content {
     position: absolute;
     left: 2rem;
     font-weight: bold;
+    bottom: 1rem;
+    color: #7c7c7c;
 }
