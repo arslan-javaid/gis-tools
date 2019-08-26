@@ -271,6 +271,9 @@ OL = {
     },
 
     setLocation : function(lon, lat){
+        // Reset
+        markers.clearMarkers();
+
         let sourceProjection = new OpenLayers.Projection("EPSG:4326", {}),
             point = new OpenLayers.Geometry.Point(lon , lat),
             destProjection = new OpenLayers.Projection("EPSG:3857", {});
